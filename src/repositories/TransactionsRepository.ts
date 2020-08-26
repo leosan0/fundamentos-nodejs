@@ -24,19 +24,26 @@ class TransactionsRepository {
   }
 
   public getBalance(): Balance {
-    const incomeBalance = this.transactions
+    const income = this.transactions
       .filter(transaction => transaction.type === 'income')
-      .map(income => income.value)
-      .reduce((total, income) => (total += income), 0);
+      .map(incomeTransaction => incomeTransaction.value)
+      .reduce(
+        (incomeTotal, incomeTransaction) => (incomeTotal += incomeTransaction),
+        0,
+      );
 
-    const outcomeBalance = this.transactions
+    const outcome = this.transactions
       .filter(transaction => transaction.type === 'outcome')
-      .map(outcome => outcome.value)
-      .reduce((total, outcome) => (total += outcome), 0);
+      .map(outcomeTransaction => outcomeTransaction.value)
+      .reduce(
+        (outcomeTotal, outcomeTransaction) =>
+          (outcomeTotal += outcomeTransaction),
+        0,
+      );
 
-    const totalBalance = incomeBalance - outcomeBalance;
+    const total = income - outcome;
 
-    const balance = { incomeBalance, outcomeBalance, totalBalance };
+    const balance = { income, outcome, total };
 
     return balance;
   }
